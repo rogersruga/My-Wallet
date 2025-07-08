@@ -1,9 +1,9 @@
 // Importing necessary packages and files.
 //import 'package:firebase_core/firebase_core.dart'; // Firebase core package for initializing Firebase.
 import 'package:flutter/material.dart'; // Flutter's material design package for UI components.
-import 'package:mywallet/classes/homecontent.dart';
+import 'package:my_pocket_wallet/classes/homecontent.dart';
 //import 'package:my_pocket_wallet/firebase_options.dart'; // Firebase configuration options.
-import 'package:mywallet/screens/splashscreen.dart';
+import 'package:my_pocket_wallet/screens/splashscreen.dart';
 
 
 // The main function is the entry point of the Flutter application.

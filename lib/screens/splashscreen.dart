@@ -1,6 +1,6 @@
 // Importing necessary packages and files.
 import 'package:flutter/material.dart'; // Flutter's material design package for UI components.
-import 'package:mywallet/classes/homecontent.dart';
+import 'package:my_pocket_wallet/classes/homecontent.dart';
 
 // Splashscreen widget represents the splash screen of the app.
 class Splashscreen extends StatefulWidget {

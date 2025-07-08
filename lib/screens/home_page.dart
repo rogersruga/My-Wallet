@@ -1,6 +1,6 @@
 // Importing necessary packages and files.
 import 'package:flutter/material.dart'; // Flutter's material design package for UI components.
-import 'package:mywallet/classes/homecontent.dart'; // Home content widget.
+import 'package:my_pocket_wallet/classes/homecontent.dart'; // Home content widget.
 
 // HomePage widget represents the main screen of the app with a bottom navigation bar.
 class HomePage extends StatefulWidget {

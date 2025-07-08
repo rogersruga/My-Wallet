@@ -8,7 +8,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:mywallet/main.dart'; // Import the main app file to test the MyPocketWallet widget.
+import 'package:my_pocket_wallet/main.dart'; // Import the main app file to test the MyPocketWallet widget.
 
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {

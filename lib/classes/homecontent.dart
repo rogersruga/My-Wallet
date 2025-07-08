@@ -1,10 +1,10 @@
 // Importing necessary packages and files.
 import 'package:flutter/material.dart'; // Flutter's material design package for UI components.
-import 'package:my_pocket_wallet/screens/pages/account.dart';
-import 'package:my_pocket_wallet/screens/pages/mobile_recharge.dart';
-import 'package:my_pocket_wallet/screens/pages/pay_bill.dart'; // Pay the Bill page.
-import 'package:my_pocket_wallet/screens/pages/transfer.dart';
-import 'package:my_pocket_wallet/screens/pages/withdraw.dart'; // Transfer page.
+import 'package:mywallet/screens/pages/account.dart';
+import 'package:mywallet/screens/pages/mobile_recharge.dart';
+import 'package:mywallet/screens/pages/pay_bill.dart'; // Pay the Bill page.
+import 'package:mywallet/screens/pages/transfer.dart';
+import 'package:mywallet/screens/pages/withdraw.dart'; // Transfer page.
 
 // Homecontent widget represents the main screen of the app.
 class Homecontent extends StatelessWidget {

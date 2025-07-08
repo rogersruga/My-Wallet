@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_pocket_wallet/screens/pages/add_acard.dart';
+import 'package:mywallet/screens/pages/add_acard.dart';
 
 class AccountAndCardPage extends StatefulWidget {
   const AccountAndCardPage({super.key});

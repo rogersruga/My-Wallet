@@ -60,7 +60,7 @@ Widget _middleScreenText() {
       ),
       SizedBox(height: 10), // Spacing between texts.
       Text(
-        "Your secure digital wallet for easy transactions", // Subtitle text.
+        "Your secure digital wallet for easy transactions anywhere anytime", // Subtitle text.
         textAlign: TextAlign.center, // Center-align the text.
         style: TextStyle(
           fontSize: 16, // Font size.

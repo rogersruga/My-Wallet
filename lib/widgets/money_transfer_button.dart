@@ -89,18 +89,41 @@ class _MoneyTransferButtonState extends State<MoneyTransferButton>
       builder: (context, child) {
         return Transform.scale(
           scale: _scaleAnimation.value,
-          child: Container(
-            width: widget.fullWidth ? double.infinity : null,
-            height: buttonConfig.height,
-            child: ElevatedButton(
-              onPressed: isDisabled ? null : _handlePress,
-              style: _buildButtonStyle(buttonConfig, isDisabled),
-              child: _buildButtonContent(buttonConfig),
+          child: MouseRegion(
+            onEnter: (_) => _onHover(true),
+            onExit: (_) => _onHover(false),
+            child: AnimatedContainer(
+              duration: const Duration(milliseconds: 200),
+              width: widget.fullWidth ? double.infinity : null,
+              height: buttonConfig.height,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(buttonConfig.borderRadius),
+                boxShadow: isDisabled ? null : [
+                  BoxShadow(
+                    color: (widget.backgroundColor ?? buttonConfig.backgroundColor)
+                        .withValues(alpha: 0.3),
+                    blurRadius: 8,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
+              ),
+              child: ElevatedButton(
+                onPressed: isDisabled ? null : _handlePress,
+                style: _buildButtonStyle(buttonConfig, isDisabled),
+                child: _buildButtonContent(buttonConfig),
+              ),
             ),
           ),
         );
       },
     );
+  }
+
+  void _onHover(bool isHovered) {
+    // Add subtle hover effect
+    if (!widget.isLoading && widget.onPressed != null) {
+      // Could add additional hover animations here
+    }
   }
 
   void _handlePress() {

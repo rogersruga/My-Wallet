@@ -74,6 +74,12 @@ class _TransferPageState extends State<TransferPage> {
         amount = '\$${_amountController.text.trim()}';
       });
       _navigateToNextPage();
+    } else {
+      // Show error message for invalid form
+      CustomSnackBar.showError(
+        context,
+        'Please fix the errors above before continuing',
+      );
     }
   }
 
@@ -100,8 +106,23 @@ class _TransferPageState extends State<TransferPage> {
       ),
       body: SafeArea(
         child: AnimatedSwitcher(
-          duration: const Duration(milliseconds: 500), // Animation duration
-          child: _buildPage(_currentPage), // Build the current page based on _currentPage
+          duration: AnimationUtils.normalDuration,
+          transitionBuilder: (Widget child, Animation<double> animation) {
+            // Determine transition direction based on page navigation
+            final isForward = child.key == ValueKey(_currentPage);
+
+            if (isForward) {
+              // Forward navigation: slide from right
+              return AnimationUtils.slideFromRight(animation, child);
+            } else {
+              // Backward navigation: slide from left
+              return AnimationUtils.slideFromLeft(animation, child);
+            }
+          },
+          child: Container(
+            key: ValueKey(_currentPage),
+            child: _buildPage(_currentPage),
+          ),
         ),
       ),
     );
@@ -149,8 +170,8 @@ class _TransferPageState extends State<TransferPage> {
               ),
               const SizedBox(height: AppTheme.spacingS),
 
-              // Recipient Name Input Field
-              CustomTextField(
+              // Recipient Name Input Field with Animation
+              AnimatedFormField(
                 controller: _recipientNameController,
                 label: 'Recipient Name',
                 hint: 'Enter recipient\'s full name',
@@ -160,8 +181,8 @@ class _TransferPageState extends State<TransferPage> {
               ),
               const SizedBox(height: AppTheme.spacingS),
 
-              // Amount Input Field
-              CustomTextField(
+              // Amount Input Field with Animation
+              AnimatedFormField(
                 controller: _amountController,
                 label: 'Amount',
                 hint: 'Enter amount (e.g., 100.00)',
@@ -243,8 +264,8 @@ class _TransferPageState extends State<TransferPage> {
             ),
             const SizedBox(height: AppTheme.spacingL),
 
-            // PIN Input Field
-            CustomTextField(
+            // PIN Input Field with Animation
+            AnimatedFormField(
               controller: _pinController,
               label: 'Enter PIN to Confirm',
               hint: 'Enter your 4-6 digit PIN',
@@ -257,34 +278,65 @@ class _TransferPageState extends State<TransferPage> {
             ),
             const SizedBox(height: AppTheme.spacingL),
 
-            // Confirm Transfer Button
-            MoneyTransferButton(
-              text: 'Confirm Transfer',
-              onPressed: () {
-                if (_pinController.text.length < 4) {
-                  CustomSnackBar.showError(context, 'PIN must be at least 4 digits');
-                } else {
-                  setState(() {
-                    isProcessing = true;
-                  });
-                  // Simulate processing delay
-                  Future.delayed(const Duration(seconds: 2), () {
-                    if (mounted) {
-                      setState(() {
-                        isProcessing = false;
-                      });
-                      CustomSnackBar.showSuccess(context, 'Transfer completed successfully!');
-                      _navigateToNextPage();
-                    }
-                  });
-                }
-              },
-              isLoading: isProcessing,
-              loadingText: 'Processing...',
-              icon: Icons.send,
-              fullWidth: true,
-              size: MoneyTransferButtonSize.large,
+            // Confirm Transfer Button with animated processing
+            AnimatedContainer(
+              duration: AnimationUtils.normalDuration,
+              curve: AnimationUtils.defaultCurve,
+              child: MoneyTransferButton(
+                text: isProcessing ? 'Processing Transfer...' : 'Confirm Transfer',
+                onPressed: isProcessing ? null : () {
+                  if (_pinController.text.length < 4) {
+                    CustomSnackBar.showError(context, 'PIN must be at least 4 digits');
+                  } else {
+                    setState(() {
+                      isProcessing = true;
+                    });
+                    // Simulate processing delay with progress animation
+                    Future.delayed(const Duration(seconds: 2), () {
+                      if (mounted) {
+                        setState(() {
+                          isProcessing = false;
+                        });
+                        CustomSnackBar.showSuccess(context, 'Transfer completed successfully!');
+                        _navigateToNextPage();
+                      }
+                    });
+                  }
+                },
+                isLoading: isProcessing,
+                loadingText: 'Processing...',
+                icon: isProcessing ? null : Icons.send,
+                fullWidth: true,
+                size: MoneyTransferButtonSize.large,
+              ),
             ),
+
+            // Animated progress indicator during processing
+            if (isProcessing) ...[
+              const SizedBox(height: AppTheme.spacingM),
+              AnimatedFadeInWidget(
+                duration: AnimationUtils.fastDuration,
+                child: Column(
+                  children: [
+                    PulsingWidget(
+                      duration: const Duration(milliseconds: 1000),
+                      child: Text(
+                        'Securing your transaction...',
+                        style: AppTheme.bodyMedium,
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                    const SizedBox(height: AppTheme.spacingS),
+                    AnimatedProgressIndicator(
+                      progress: 1.0,
+                      duration: const Duration(seconds: 2),
+                      color: AppTheme.accentOrange,
+                      backgroundColor: AppTheme.borderSecondary,
+                    ),
+                  ],
+                ),
+              ),
+            ],
             // Add bottom padding to prevent overflow
             const SizedBox(height: AppTheme.spacingXL),
             ],
@@ -297,37 +349,55 @@ class _TransferPageState extends State<TransferPage> {
   // Third Screen: Success Message
   Widget _buildSuccessScreen() {
     return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center, // Center content vertically
-        children: [
-          const Icon(Icons.check_circle, color: AppTheme.successGreen, size: 80), // Success icon
-          const SizedBox(height: AppTheme.spacingL),
-          Text(
-            'Success! $amount sent to $recipientName', // Success message
-            textAlign: TextAlign.center,
-            style: AppTheme.headingMedium,
-          ),
-          const SizedBox(height: AppTheme.spacingXL),
+      child: Padding(
+        padding: const EdgeInsets.all(AppTheme.spacingL),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            // Animated success icon with bounce effect
+            AnimatedSuccessIcon(
+              size: 80,
+              color: AppTheme.successGreen,
+              delay: const Duration(milliseconds: 200),
+              onAnimationComplete: () {
+                // Icon animation completed
+              },
+            ),
+            const SizedBox(height: AppTheme.spacingL),
 
-          // Done Button
-          MoneyTransferButton(
-            text: 'Done',
-            onPressed: () {
-              setState(() {
-                _currentPage = 0; // Reset to the first page
-                _recipientNameController.clear(); // Clear recipient input
-                _amountController.clear(); // Clear amount input
-                _pinController.clear(); // Clear PIN input
-                selectedPaymentMethod = PaymentMethodItems.items.first.value; // Reset payment method
-                isFavorite = false; // Reset favorite toggle
-              });
-            },
-            icon: Icons.check,
-            fullWidth: true,
-            size: MoneyTransferButtonSize.large,
-            style: MoneyTransferButtonStyle.secondary,
-          ),
-        ],
+            // Animated success message with slide-up effect
+            AnimatedSlideText(
+              text: 'Success! $amount sent to $recipientName',
+              style: AppTheme.headingMedium,
+              delay: const Duration(milliseconds: 500), // 300ms after icon starts
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: AppTheme.spacingXL),
+
+            // Animated done button with fade-in effect
+            AnimatedFadeInWidget(
+              delay: const Duration(milliseconds: 1000),
+              duration: AnimationUtils.normalDuration,
+              child: MoneyTransferButton(
+                text: 'Done',
+                onPressed: () {
+                  setState(() {
+                    _currentPage = 0; // Reset to the first page
+                    _recipientNameController.clear(); // Clear recipient input
+                    _amountController.clear(); // Clear amount input
+                    _pinController.clear(); // Clear PIN input
+                    selectedPaymentMethod = PaymentMethodItems.items.first.value; // Reset payment method
+                    isFavorite = false; // Reset favorite toggle
+                  });
+                },
+                icon: Icons.check,
+                fullWidth: true,
+                size: MoneyTransferButtonSize.large,
+                style: MoneyTransferButtonStyle.secondary,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

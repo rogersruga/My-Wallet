@@ -262,7 +262,7 @@ class _MoneyTransferButtonState extends State<MoneyTransferButton>
     return baseConfig.copyWith(
       height: AppTheme.buttonHeightLarge,
       paddingHorizontal: AppTheme.spacingXL,
-      paddingVertical: AppTheme.spacingL,
+      paddingVertical: AppTheme.spacingM, // Reduced from spacingL (24) to spacingM (16) to prevent text clipping
       textStyle: AppTheme.buttonText.copyWith(fontSize: 18),
       iconSize: AppTheme.iconSizeLarge,
       loadingIndicatorSize: 24,

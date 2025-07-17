@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:my_pocket_wallet/screens/home_page.dart';
-import 'package:my_pocket_wallet/screens/pages/login_screen.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -191,10 +190,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 // Already have an account? Login
                 TextButton(
                   onPressed: () {
-                   Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(builder: (context) => LoginPage()),
-                        );
+                    Navigator.pushReplacementNamed(context, '/login');
                   },
                   child: const Text(
                     'Already have an account? Login',

@@ -13,11 +13,11 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  glassmorphism_widgets: 0.2.2
   firebase_core: 3.8.1
   firebase_auth: 5.3.4
+  glassmorphism_widgets: 0.2.2
 
-  
+
   cupertino_icons: ^1.0.8
 
 dev_dependencies:

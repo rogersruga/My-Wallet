@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:my_pocket_wallet/screens/home_page.dart';
-import 'package:my_pocket_wallet/screens/pages/register.dart';
 
 class LoginPage extends StatelessWidget {
   LoginPage({Key? key}) : super(key: key);
@@ -140,10 +139,7 @@ class LoginPage extends StatelessWidget {
                 // Sign Up
                 TextButton(
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const SignUpPage()),
-                    );
+                    Navigator.pushNamed(context, '/register');
                   },
                   child: const Text(
                     'Don’t have an account? Sign Up',

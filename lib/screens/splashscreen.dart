@@ -1,6 +1,5 @@
 // Importing necessary packages and files.
 import 'package:flutter/material.dart'; // Flutter's material design package for UI components.
-import 'package:my_pocket_wallet/classes/homecontent.dart';
 
 // Splashscreen widget represents the splash screen of the app.
 class Splashscreen extends StatefulWidget {
@@ -60,7 +59,7 @@ Widget _middleScreenText() {
       ),
       SizedBox(height: 10), // Spacing between texts.
       Text(
-        "Your secure digital wallet for easy transactions anywhere anytime", // Subtitle text.
+        "Your secure digital wallet for easy transactions", // Subtitle text.
         textAlign: TextAlign.center, // Center-align the text.
         style: TextStyle(
           fontSize: 16, // Font size.
@@ -83,10 +82,7 @@ Widget _splashButton(BuildContext context) {
     ),
     onPressed: () {
       // Action to perform when the button is pressed.
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => const Homecontent()), // Navigates to the DashboardPage.
-      );
+      Navigator.pushNamed(context, '/register'); // Navigate to register page
     },
     child: const Text(
       "Get Started", // Button text.
